@@ -1,6 +1,5 @@
 package com.bits.hackathon.studyfocus.screens
 
-import com.bits.hackathon.studyfocus.R
 import com.bits.hackathon.studyfocus.viewmodels.MainViewModel
 
 
@@ -61,7 +60,8 @@ import androidx.core.app.ActivityCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.navigation.NavHostController
-import com.bits.hackathon.studyfocus.ForegroundService
+import com.bits.hackathon.studyfocus.*
+import com.bits.hackathon.studyfocus.R
 import com.bits.hackathon.studyfocus.viewmodels.TimerViewModel
 
 @RequiresApi(Build.VERSION_CODES.M)
@@ -97,11 +97,20 @@ fun TimerScreen(
             startTimer(context = navController.context, timerViewModel = timerViewModel)
         }
     }
+
+        when (OverlayStateHolder.checkForTimerComplete) {
+            true -> {
+                navController.navigate(Screen.Rewards.route)
+                OverlayStateHolder.checkForTimerComplete=false
+            }
+        }
+
     val progress by animateFloatAsState(progressValue)
     Surface(
-        modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.secondary
+        modifier = Modifier.fillMaxSize()
     ) {
         Scaffold(
+            backgroundColor = MaterialTheme.colors.secondary
         )
         {
             Column(
@@ -391,7 +400,7 @@ fun startTimer(context: Context, timerViewModel: TimerViewModel) {
         Text(buildAnnotatedString {
             append("Please enable \"Allow display over other apps\" permission for application ")
             withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                append("Pomodoro Timer")
+                append("Study Focus")
             }
         })
     })

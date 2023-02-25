@@ -1,5 +1,6 @@
 package com.bits.hackathon.studyfocus
 
+import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -22,10 +23,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
@@ -43,6 +41,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import com.bits.hackathon.studyfocus.OverlayStateHolder.checkForTimerComplete
 import com.bits.hackathon.studyfocus.OverlayStateHolder.countdownHr
 import com.bits.hackathon.studyfocus.OverlayStateHolder.countdownMin
 import com.bits.hackathon.studyfocus.OverlayStateHolder.countdownSeconds
@@ -133,6 +132,7 @@ class OverlayComponent(
         stopService()
     }
 
+    @SuppressLint("SuspiciousIndentation")
     @RequiresApi(Build.VERSION_CODES.O)
     private fun setContentClickTargetOverlay() {
         clickTargetOverlay.view.setContent {
@@ -184,8 +184,8 @@ class OverlayComponent(
             }
 
             val progressMax by animateFloatAsState(progressMaxValue)
-                Box(
-                    modifier = Modifier.background(Color.White)
+                Scaffold(
+                    backgroundColor = Color.White
                 ) {
                     Column(modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.Top, horizontalAlignment = Alignment.CenterHorizontally) {
                         Spacer(modifier = Modifier.padding(top=50.dp))
@@ -209,7 +209,7 @@ class OverlayComponent(
 
                             true -> {
                                 createNotificationChannel()
-
+                                checkForTimerComplete = true
                                 Button(
                                     onClick = {
                                         cancelNotification(context, 1234)

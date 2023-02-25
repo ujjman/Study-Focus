@@ -18,9 +18,11 @@ import com.bits.hackathon.studyfocus.navigation.SetupNavGraph
 import com.bits.hackathon.studyfocus.ui.theme.StudyFocusTheme
 import com.bits.hackathon.studyfocus.viewmodelfactories.LoginViewModelFactory
 import com.bits.hackathon.studyfocus.viewmodelfactories.MainViewModelFactory
+import com.bits.hackathon.studyfocus.viewmodelfactories.RewardsViewModelFactory
 import com.bits.hackathon.studyfocus.viewmodelfactories.TimerViewModelFactory
 import com.bits.hackathon.studyfocus.viewmodels.LoginViewModel
 import com.bits.hackathon.studyfocus.viewmodels.MainViewModel
+import com.bits.hackathon.studyfocus.viewmodels.RewardsViewModel
 import com.bits.hackathon.studyfocus.viewmodels.TimerViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -43,6 +45,9 @@ class MainActivity : ComponentActivity() {
         val timerViewModel: TimerViewModel by viewModels {
             TimerViewModelFactory()
         }
+        val rewardsViewModel: RewardsViewModel by viewModels {
+            RewardsViewModelFactory(db, mAuth)
+        }
         Log.d("ujj","j")
         setContent {
 
@@ -50,7 +55,7 @@ class MainActivity : ComponentActivity() {
 
                 navController = rememberNavController()
                 SetupNavGraph(
-                    navController = navController, mainViewModel = mainViewModel, loginViewModel = loginViewModel, timerViewModel = timerViewModel
+                    navController = navController, mainViewModel = mainViewModel, loginViewModel = loginViewModel, timerViewModel = timerViewModel, rewardsViewModel =rewardsViewModel
                 )
 
                 if (mAuth.currentUser == null) {

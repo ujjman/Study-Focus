@@ -9,6 +9,7 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -68,12 +69,13 @@ fun LoginScreen(
         .requestEmail().build()
     val googleSignInClient = GoogleSignIn.getClient(context, gso)
     Surface(
-        modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.secondary
+        modifier = Modifier.fillMaxSize()
     ) {
         Scaffold(
+            backgroundColor = MaterialTheme.colors.secondary
         ) {
             Column(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.secondary),
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {

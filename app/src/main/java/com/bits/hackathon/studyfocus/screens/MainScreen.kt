@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.bits.hackathon.studyfocus.R
+import com.bits.hackathon.studyfocus.Screen
 import com.bits.hackathon.studyfocus.viewmodels.MainViewModel
 import com.google.firebase.auth.FirebaseAuth
 import org.checkerframework.checker.units.qual.m
@@ -29,9 +30,10 @@ import org.checkerframework.checker.units.qual.m
 fun MainScreen(navController: NavHostController, mainViewModel: MainViewModel) {
     var mAuth = FirebaseAuth.getInstance()
     Surface(
-        modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.secondary
+        modifier = Modifier.fillMaxSize()
     ) {
         Scaffold(
+            backgroundColor = MaterialTheme.colors.secondary
         ) {
             Column(
                 modifier = Modifier.fillMaxSize(),
@@ -39,7 +41,7 @@ fun MainScreen(navController: NavHostController, mainViewModel: MainViewModel) {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Spacer(modifier = Modifier.padding(top = 80.dp))
-                Text(text = "Welcome, ${mAuth.currentUser?.displayName}", fontWeight = FontWeight.Bold, fontSize = 32.sp)
+                Text(text = "Welcome, ${mAuth.currentUser?.displayName}", fontWeight = FontWeight.Bold, fontSize = 22.sp)
                 Spacer(modifier = Modifier.padding(20.dp))
                 val padding = 10.dp
                 Card(
@@ -78,7 +80,9 @@ fun MainScreen(navController: NavHostController, mainViewModel: MainViewModel) {
                         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
 
                             Button(
-                                onClick = { },
+                                onClick = {
+                                          navController.navigate(Screen.Timer.route)
+                                },
                                 modifier = Modifier
                                     .shadow(elevation = 8.dp, shape = RoundedCornerShape(20))
                                     .height(40.dp)

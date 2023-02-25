@@ -9,5 +9,6 @@ object OverlayStateHolder {
     var countdownSeconds by mutableStateOf<Int>(0)
     var countdownMin by mutableStateOf<Int>(0)
     var countdownHr by mutableStateOf<Int>(0)
+    var checkForTimerComplete by mutableStateOf(false)
 
 }
