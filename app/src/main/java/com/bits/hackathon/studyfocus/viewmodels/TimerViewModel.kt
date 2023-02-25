@@ -13,6 +13,7 @@ class TimerViewModel: ViewModel() {
     var minute = MutableLiveData(0)
     var second = MutableLiveData(0)
     var showGrantOverlayDialog by mutableStateOf(false)
+    var showOverlayDialog by mutableStateOf(false)
     fun setTime(hr: Int, min: Int, sec: Int)
     {
         val totSec = (hr * 3600) + (min * 60) + (sec)

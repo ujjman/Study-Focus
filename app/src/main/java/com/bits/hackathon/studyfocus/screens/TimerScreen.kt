@@ -9,9 +9,11 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.provider.Settings
 import android.util.Log
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
@@ -59,8 +61,10 @@ import androidx.core.app.ActivityCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.navigation.NavHostController
+import com.bits.hackathon.studyfocus.ForegroundService
 import com.bits.hackathon.studyfocus.viewmodels.TimerViewModel
 
+@RequiresApi(Build.VERSION_CODES.M)
 @Composable
 fun TimerScreen(
     navController: NavHostController, timerViewModel: TimerViewModel
@@ -78,20 +82,27 @@ fun TimerScreen(
         mutableStateOf(0)
     }
     timerViewModel.hour.observe(navController.context as LifecycleOwner, Observer {
-        hr=it
+        hr = it
     })
     timerViewModel.minute.observe(navController.context as LifecycleOwner, Observer {
-        min=it
+        min = it
     })
     timerViewModel.second.observe(navController.context as LifecycleOwner, Observer {
-        sec=it
+        sec = it
     })
+    when(timerViewModel.showOverlayDialog)
+    {
+        true->
+        {
+            startTimer(context = navController.context, timerViewModel = timerViewModel)
+        }
+    }
     val progress by animateFloatAsState(progressValue)
     Surface(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.secondary
     ) {
         Scaffold(
-           )
+        )
         {
             Column(
                 modifier = Modifier.fillMaxSize(),
@@ -120,25 +131,41 @@ fun TimerScreen(
 
                 Spacer(modifier = Modifier.padding(top = 50.dp))
 
-                OutlinedButton(onClick = { },
-                    modifier= Modifier.size(100.dp),
+                OutlinedButton(
+                    onClick = {
+                        if (!Settings.canDrawOverlays(navController.context)) {
+                            timerViewModel.showOverlayDialog = true
+                            return@OutlinedButton
+                        }
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            createTimer(navController.context, hr, min, sec)
+                        }
+                    },
+                    modifier = Modifier.size(100.dp),
                     shape = CircleShape,
                     contentPadding = PaddingValues(0.dp),
-                    colors = ButtonDefaults.outlinedButtonColors(contentColor =  Color.White, backgroundColor = Color(62,111,168,255))
+                    colors = ButtonDefaults.outlinedButtonColors(
+                        contentColor = Color.White,
+                        backgroundColor = Color(62, 111, 168, 255)
+                    )
                 ) {
                     // Adding an Icon "Add" inside the Button
                     Text(text = "Go", fontSize = 30.sp)
                 }
                 Spacer(modifier = Modifier.padding(top = 90.dp))
 
-                Button(onClick = {
-                                         timerViewModel.setTime(0,0,0)
-                },
-                    modifier= Modifier
+                Button(
+                    onClick = {
+                        timerViewModel.setTime(0, 0, 0)
+                    },
+                    modifier = Modifier
                         .width(180.dp)
                         .height(80.dp),
                     contentPadding = PaddingValues(0.dp),
-                    colors = ButtonDefaults.outlinedButtonColors(contentColor =  Color.White, backgroundColor = Color(62,111,168,255))
+                    colors = ButtonDefaults.outlinedButtonColors(
+                        contentColor = Color.White,
+                        backgroundColor = Color(62, 111, 168, 255)
+                    )
                 ) {
                     // Adding an Icon "Add" inside the Button
                     Text(text = "Reset", fontSize = 30.sp)
@@ -147,7 +174,7 @@ fun TimerScreen(
                 when (timerViewModel.showGrantOverlayDialog) {
 
                     true -> {
-                        setTime(context = navController.context, timerViewModel=timerViewModel)
+                        setTime(context = navController.context, timerViewModel = timerViewModel)
                     }
                 }
 
@@ -169,7 +196,7 @@ fun CircularProgressBar(
     roundBorder: Boolean = false,
     startAngle: Float = 0f,
     timerViewModel: TimerViewModel,
-    hr : Int,
+    hr: Int,
     min: Int,
     sec: Int
 ) {
@@ -234,8 +261,8 @@ fun setTime(context: Context, timerViewModel: TimerViewModel) {
         timerViewModel.showGrantOverlayDialog = false
     }, confirmButton = {
         Button(onClick = {
-                timerViewModel.setTime(hr = hr.toInt(), min = min.toInt(), sec = sec.toInt())
-            timerViewModel.showGrantOverlayDialog=false
+            timerViewModel.setTime(hr = hr.toInt(), min = min.toInt(), sec = sec.toInt())
+            timerViewModel.showGrantOverlayDialog = false
         }) {
             Text("Save")
         }
@@ -337,4 +364,46 @@ fun setTime(context: Context, timerViewModel: TimerViewModel) {
                 )
             }
         })
+}
+
+@Composable
+fun startTimer(context: Context, timerViewModel: TimerViewModel) {
+    AlertDialog(onDismissRequest = {
+        timerViewModel.showOverlayDialog = false
+    }, confirmButton = {
+        Button(onClick = {
+            val intent = Intent(
+                Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                Uri.parse("package:" + context.packageName)
+            )
+
+            ActivityCompat.startActivityForResult(
+                context as Activity, intent, 1, null
+            )
+            timerViewModel.showOverlayDialog = false
+
+        }) {
+            Text("Go To Settings")
+        }
+    }, title = {
+        Text("Enable Overlay Permission")
+    }, text = {
+        Text(buildAnnotatedString {
+            append("Please enable \"Allow display over other apps\" permission for application ")
+            withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                append("Pomodoro Timer")
+            }
+        })
+    })
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+fun createTimer(context: Context, hr: Int, min: Int, sec: Int) {
+
+    val intent = Intent(context.applicationContext, ForegroundService::class.java)
+    intent.putExtra("timer", "create")
+    intent.putExtra("sec", sec)
+    intent.putExtra("min", min)
+    intent.putExtra("hr", hr)
+    context.startForegroundService(intent)
 }
