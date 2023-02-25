@@ -10,7 +10,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
@@ -35,6 +35,49 @@ import kotlin.random.Random
 
 @Composable
 fun RewardsScreen(navController: NavHostController, rewardsViewModel: RewardsViewModel) {
+
+    when(rewardsViewModel.showOverlayDialog)
+    {
+        true->
+        {
+            showReward(context = navController.context, rewardsViewModel = rewardsViewModel)
+        }
+    }
+
+    var redirect by remember {
+        mutableStateOf(0)
+    }
+    when(redirect)
+    {
+        1->
+        {
+            redirect=0
+            redirectGames(context = navController.context)
+            navController.navigate(Screen.MainScreen.route)
+            {
+                popUpTo(0)
+            }
+        }
+        2->
+        {
+            redirect=0
+            redirectSongs(context = navController.context)
+            navController.navigate(Screen.MainScreen.route)
+            {
+                popUpTo(0)
+            }
+        }
+        3->
+        {
+            redirect=0
+            redirectExercise(context = navController.context)
+            navController.navigate(Screen.MainScreen.route)
+            {
+                popUpTo(0)
+            }
+        }
+    }
+
     Surface(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -113,7 +156,7 @@ fun RewardsScreen(navController: NavHostController, rewardsViewModel: RewardsVie
 
                             Button(
                                 onClick = {
-
+                                          rewardsViewModel.showOverlayDialog=true
                                 },
                                 modifier = Modifier
                                     .shadow(elevation = 8.dp, shape = RoundedCornerShape(20))
@@ -220,7 +263,7 @@ fun RewardsScreen(navController: NavHostController, rewardsViewModel: RewardsVie
 
                             Button(
                                 onClick = {
-
+                                          redirect=1
                                 },
                                 modifier = Modifier
                                     .shadow(elevation = 8.dp, shape = RoundedCornerShape(20))
@@ -245,7 +288,7 @@ fun RewardsScreen(navController: NavHostController, rewardsViewModel: RewardsVie
                             }
                             Button(
                                 onClick = {
-
+                                          redirect=2
                                 },
                                 modifier = Modifier
                                     .shadow(elevation = 8.dp, shape = RoundedCornerShape(20))
@@ -270,7 +313,7 @@ fun RewardsScreen(navController: NavHostController, rewardsViewModel: RewardsVie
                             }
                             Button(
                                 onClick = {
-
+                                          redirect=3
                                 },
                                 modifier = Modifier
                                     .shadow(elevation = 8.dp, shape = RoundedCornerShape(20))
@@ -302,6 +345,79 @@ fun RewardsScreen(navController: NavHostController, rewardsViewModel: RewardsVie
 
         }
     }
+}
+
+@Composable
+fun redirectGames(context: Context)
+{
+    val myRandomValue = Random.nextInt(2,50)
+    var link =""
+    if(myRandomValue%4==0)
+    {
+        link="https://sudoku.com/"
+    }
+    else if(myRandomValue%4 == 1)
+    {
+        link="https://flappybird.io/"
+    }
+    else if(myRandomValue%4==2)
+    {
+        link="https://doodlejump.io/"
+    }
+    else
+    {
+        link="https://poki.com/en/g/dinosaur-game"
+    }
+    val intent = remember { Intent(Intent.ACTION_VIEW, Uri.parse(link)) }
+    context.startActivity(intent)
+}
+@Composable
+fun redirectSongs(context: Context)
+{
+    val myRandomValue = Random.nextInt(2,50)
+    var link =""
+    if(myRandomValue%4==0)
+    {
+        link="https://youtu.be/D9_4BAuHEBw"
+    }
+    else if(myRandomValue%4 == 1)
+    {
+        link="https://youtu.be/_6_akBtKZdE"
+    }
+    else if(myRandomValue%4==2)
+    {
+        link="https://youtu.be/Ax06Q8FWk20"
+    }
+    else
+    {
+        link="https://youtu.be/KaSFoOF6Yw0"
+    }
+    val intent = remember { Intent(Intent.ACTION_VIEW, Uri.parse(link)) }
+    context.startActivity(intent)
+}
+@Composable
+fun redirectExercise(context: Context)
+{
+    val myRandomValue = Random.nextInt(2,50)
+    var link =""
+    if(myRandomValue%4==0)
+    {
+        link="https://youtu.be/SvPKFsCiMsw"
+    }
+    else if(myRandomValue%4 == 1)
+    {
+        link="https://youtu.be/4pKly2JojMw"
+    }
+    else if(myRandomValue%4==2)
+    {
+        link="https://youtu.be/X3-gKPNyrTA"
+    }
+    else
+    {
+        link="https://youtu.be/hKsAjoj4UK4"
+    }
+    val intent = remember { Intent(Intent.ACTION_VIEW, Uri.parse(link)) }
+    context.startActivity(intent)
 }
 
 @Composable
@@ -343,6 +459,13 @@ fun showReward(context: Context, rewardsViewModel: RewardsViewModel) {
     }, title = {
         Text("Congrats for winning coupon")
     }, text = {
-        Text(text = "Congrats for winning coupon for ${discount}% on $couponName")
+        Column(
+
+        ) {
+            Text(text = "Congrats for winning coupon for ${discount}% on $couponName")
+            Spacer(modifier = Modifier.padding(top = 20.dp))
+            Text(text = "Coupon Code is : ${coupon}", fontSize = 22.sp, fontWeight = FontWeight.Bold)
+        }
+
     })
 }
