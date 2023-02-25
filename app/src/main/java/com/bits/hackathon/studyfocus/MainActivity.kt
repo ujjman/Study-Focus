@@ -18,8 +18,10 @@ import com.bits.hackathon.studyfocus.navigation.SetupNavGraph
 import com.bits.hackathon.studyfocus.ui.theme.StudyFocusTheme
 import com.bits.hackathon.studyfocus.viewmodelfactories.LoginViewModelFactory
 import com.bits.hackathon.studyfocus.viewmodelfactories.MainViewModelFactory
+import com.bits.hackathon.studyfocus.viewmodelfactories.TimerViewModelFactory
 import com.bits.hackathon.studyfocus.viewmodels.LoginViewModel
 import com.bits.hackathon.studyfocus.viewmodels.MainViewModel
+import com.bits.hackathon.studyfocus.viewmodels.TimerViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.delay
@@ -38,6 +40,9 @@ class MainActivity : ComponentActivity() {
         val loginViewModel: LoginViewModel by viewModels {
             LoginViewModelFactory(db,mAuth)
         }
+        val timerViewModel: TimerViewModel by viewModels {
+            TimerViewModelFactory()
+        }
         Log.d("ujj","j")
         setContent {
 
@@ -45,7 +50,7 @@ class MainActivity : ComponentActivity() {
 
                 navController = rememberNavController()
                 SetupNavGraph(
-                    navController = navController, mainViewModel = mainViewModel, loginViewModel = loginViewModel
+                    navController = navController, mainViewModel = mainViewModel, loginViewModel = loginViewModel, timerViewModel = timerViewModel
                 )
 
                 if (mAuth.currentUser == null) {
