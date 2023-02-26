@@ -132,7 +132,7 @@ class OverlayComponent(
         stopService()
     }
 
-    @SuppressLint("SuspiciousIndentation")
+    @SuppressLint("SuspiciousIndentation", "UnusedMaterialScaffoldPaddingParameter")
     @RequiresApi(Build.VERSION_CODES.O)
     private fun setContentClickTargetOverlay() {
         clickTargetOverlay.view.setContent {
@@ -224,6 +224,23 @@ class OverlayComponent(
 
                                 ) {
                                     Text(text = "Done")
+                                }
+                                Spacer(modifier = Modifier.padding(top = 10.dp))
+                                Button(
+                                    onClick = {
+                                        cancelNotification(context, 1234)
+                                        completeOrIncomplete = "complete"
+                                        endService()
+                                        share()
+                                    },
+                                    modifier = Modifier
+                                        .align(CenterHorizontally)
+                                        .padding(10.dp)
+                                        .width(150.dp)
+                                        .height(60.dp)
+
+                                ) {
+                                    Text(text = "Share")
                                 }
 
                             }

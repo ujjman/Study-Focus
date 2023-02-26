@@ -2,9 +2,14 @@ package com.bits.hackathon.studyfocus.screens
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
+import android.os.CountDownTimer
 import android.provider.Settings
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -26,13 +31,18 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.navigation.NavHostController
 import com.bits.hackathon.studyfocus.BottomNavigationBar
+import com.bits.hackathon.studyfocus.MainActivity
 import com.bits.hackathon.studyfocus.R
 import com.bits.hackathon.studyfocus.Screen
 import com.bits.hackathon.studyfocus.data.RewardsList
 import com.bits.hackathon.studyfocus.viewmodels.RewardsViewModel
 import com.bits.hackathon.studyfocus.viewmodels.TimerViewModel
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import kotlin.random.Random
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -79,6 +89,21 @@ fun RewardsScreen(navController: NavHostController, rewardsViewModel: RewardsVie
                 popUpTo(0)
             }
         }
+    }
+
+    var totsec by remember {
+        mutableStateOf(300)
+    }
+    LaunchedEffect(Unit) {
+        val timer = object : CountDownTimer(totsec * 1000L, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+
+            }
+
+            override fun onFinish() {
+                createNotificationChannel(context = navController.context)
+            }
+        }.start()
     }
 
     Surface(
@@ -474,4 +499,35 @@ fun showReward(context: Context, rewardsViewModel: RewardsViewModel) {
         }
 
     })
+}
+
+
+private fun createNotificationChannel(context: Context) {
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        val name = "Pomodoro Timer"
+        val descriptionText = "Get Back To Work"
+        val importance = NotificationManager.IMPORTANCE_HIGH
+        val channel = NotificationChannel("mishra", name, importance).apply {
+            description = descriptionText
+        }
+        val notificationManager: NotificationManager =
+            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.createNotificationChannel(channel)
+    }
+    val intent = Intent(context, MainActivity::class.java).apply {
+        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+    }
+    val pendingIntent: PendingIntent =
+        PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+
+    val builder =
+        NotificationCompat.Builder(context, "mishra").setSmallIcon(R.drawable.ic_alarm)
+            .setContentTitle("Get Back To Work")
+            .setContentText("Click me to get back to app")
+            .setPriority(NotificationCompat.PRIORITY_HIGH).setContentIntent(pendingIntent)
+            .setAutoCancel(true)
+    with(NotificationManagerCompat.from(context)) {
+        notify(1234, builder.build())
+    }
 }
