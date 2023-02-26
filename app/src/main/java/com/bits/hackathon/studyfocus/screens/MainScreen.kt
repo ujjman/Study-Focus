@@ -184,7 +184,9 @@ fun MainScreen(navController: NavHostController, mainViewModel: MainViewModel) {
                             ) {
 
                                 Button(
-                                    onClick = { },
+                                    onClick = {
+                                              navController.navigate(Screen.Note.route)
+                                    },
                                     modifier = Modifier
                                         .shadow(elevation = 8.dp, shape = RoundedCornerShape(20))
                                         .height(40.dp)
@@ -273,3 +275,4 @@ fun MainScreen(navController: NavHostController, mainViewModel: MainViewModel) {
         }
     }
 }
+

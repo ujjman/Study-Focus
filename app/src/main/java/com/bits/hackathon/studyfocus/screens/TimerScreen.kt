@@ -64,6 +64,7 @@ import com.bits.hackathon.studyfocus.*
 import com.bits.hackathon.studyfocus.R
 import com.bits.hackathon.studyfocus.viewmodels.TimerViewModel
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @RequiresApi(Build.VERSION_CODES.M)
 @Composable
 fun TimerScreen(

@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.bits.hackathon.studyfocus.Screen
 import com.bits.hackathon.studyfocus.screens.*
+import com.bits.hackathon.studyfocus.ui.theme.RedOrange
 import com.bits.hackathon.studyfocus.viewmodels.*
 
 @RequiresApi(Build.VERSION_CODES.M)
@@ -19,7 +20,8 @@ fun SetupNavGraph(
     timerViewModel: TimerViewModel,
     rewardsViewModel: RewardsViewModel,
     statisticsViewModel: StatisticsViewModel,
-    allSessionsViewModel: AllSessionsViewModel
+    allSessionsViewModel: AllSessionsViewModel,
+    noteViewModel: NoteViewModel
 ) {
     NavHost(
         navController = navController,
@@ -42,6 +44,9 @@ fun SetupNavGraph(
         }
         composable(route = Screen.AllSessions.route) {
             AllSessionsScreen(navController = navController, allSessionsViewModel = allSessionsViewModel )
+        }
+        composable(route = Screen.Note.route) {
+            Note(navController =navController, noteViewModel = noteViewModel)
         }
     }
 }

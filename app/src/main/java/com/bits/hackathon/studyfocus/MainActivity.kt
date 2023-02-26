@@ -48,6 +48,11 @@ class MainActivity : ComponentActivity() {
         val allSessionsViewModel: AllSessionsViewModel by viewModels {
             AllSessionsViewModelFactory(db,mAuth)
         }
+        val noteViewModel: NoteViewModel by viewModels {
+            NoteViewModelFactory(db, mAuth)
+        }
+
+
         Log.d("ujj","j")
         setContent {
 
@@ -56,7 +61,7 @@ class MainActivity : ComponentActivity() {
                 navController = rememberNavController()
                 SetupNavGraph(
                     navController = navController, mainViewModel = mainViewModel, loginViewModel = loginViewModel, timerViewModel = timerViewModel, rewardsViewModel =rewardsViewModel
-                , statisticsViewModel = statisticsViewModel, allSessionsViewModel =allSessionsViewModel
+                , statisticsViewModel = statisticsViewModel, allSessionsViewModel =allSessionsViewModel, noteViewModel = noteViewModel
                 )
 
                 if (mAuth.currentUser == null) {
