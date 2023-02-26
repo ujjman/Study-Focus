@@ -16,14 +16,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.bits.hackathon.studyfocus.navigation.SetupNavGraph
 import com.bits.hackathon.studyfocus.ui.theme.StudyFocusTheme
-import com.bits.hackathon.studyfocus.viewmodelfactories.LoginViewModelFactory
-import com.bits.hackathon.studyfocus.viewmodelfactories.MainViewModelFactory
-import com.bits.hackathon.studyfocus.viewmodelfactories.RewardsViewModelFactory
-import com.bits.hackathon.studyfocus.viewmodelfactories.TimerViewModelFactory
-import com.bits.hackathon.studyfocus.viewmodels.LoginViewModel
-import com.bits.hackathon.studyfocus.viewmodels.MainViewModel
-import com.bits.hackathon.studyfocus.viewmodels.RewardsViewModel
-import com.bits.hackathon.studyfocus.viewmodels.TimerViewModel
+import com.bits.hackathon.studyfocus.viewmodelfactories.*
+import com.bits.hackathon.studyfocus.viewmodels.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.delay
@@ -48,6 +42,12 @@ class MainActivity : ComponentActivity() {
         val rewardsViewModel: RewardsViewModel by viewModels {
             RewardsViewModelFactory(db, mAuth)
         }
+        val statisticsViewModel: StatisticsViewModel by viewModels {
+            StatisticsViewModelFactory(db, mAuth)
+        }
+        val allSessionsViewModel: AllSessionsViewModel by viewModels {
+            AllSessionsViewModelFactory(db,mAuth)
+        }
         Log.d("ujj","j")
         setContent {
 
@@ -56,6 +56,7 @@ class MainActivity : ComponentActivity() {
                 navController = rememberNavController()
                 SetupNavGraph(
                     navController = navController, mainViewModel = mainViewModel, loginViewModel = loginViewModel, timerViewModel = timerViewModel, rewardsViewModel =rewardsViewModel
+                , statisticsViewModel = statisticsViewModel, allSessionsViewModel =allSessionsViewModel
                 )
 
                 if (mAuth.currentUser == null) {

@@ -7,14 +7,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.bits.hackathon.studyfocus.Screen
-import com.bits.hackathon.studyfocus.screens.LoginScreen
-import com.bits.hackathon.studyfocus.screens.MainScreen
-import com.bits.hackathon.studyfocus.screens.RewardsScreen
-import com.bits.hackathon.studyfocus.screens.TimerScreen
-import com.bits.hackathon.studyfocus.viewmodels.LoginViewModel
-import com.bits.hackathon.studyfocus.viewmodels.MainViewModel
-import com.bits.hackathon.studyfocus.viewmodels.RewardsViewModel
-import com.bits.hackathon.studyfocus.viewmodels.TimerViewModel
+import com.bits.hackathon.studyfocus.screens.*
+import com.bits.hackathon.studyfocus.viewmodels.*
 
 @RequiresApi(Build.VERSION_CODES.M)
 @Composable
@@ -23,7 +17,9 @@ fun SetupNavGraph(
     mainViewModel: MainViewModel,
     loginViewModel: LoginViewModel,
     timerViewModel: TimerViewModel,
-    rewardsViewModel: RewardsViewModel
+    rewardsViewModel: RewardsViewModel,
+    statisticsViewModel: StatisticsViewModel,
+    allSessionsViewModel: AllSessionsViewModel
 ) {
     NavHost(
         navController = navController,
@@ -40,6 +36,12 @@ fun SetupNavGraph(
         }
         composable(route = Screen.Rewards.route) {
             RewardsScreen(navController = navController, rewardsViewModel = rewardsViewModel)
+        }
+        composable(route = Screen.Statistics.route) {
+            StatisticsScreen(navController = navController, statisticsViewModel = statisticsViewModel)
+        }
+        composable(route = Screen.AllSessions.route) {
+            AllSessionsScreen(navController = navController, allSessionsViewModel = allSessionsViewModel )
         }
     }
 }

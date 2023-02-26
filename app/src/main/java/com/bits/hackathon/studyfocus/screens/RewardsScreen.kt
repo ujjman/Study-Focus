@@ -1,5 +1,6 @@
 package com.bits.hackathon.studyfocus.screens
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -33,6 +34,7 @@ import com.bits.hackathon.studyfocus.viewmodels.RewardsViewModel
 import com.bits.hackathon.studyfocus.viewmodels.TimerViewModel
 import kotlin.random.Random
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun RewardsScreen(navController: NavHostController, rewardsViewModel: RewardsViewModel) {
 

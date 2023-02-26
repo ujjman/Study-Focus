@@ -25,7 +25,7 @@ import com.bits.hackathon.studyfocus.viewmodels.MainViewModel
 import com.google.firebase.auth.FirebaseAuth
 import org.checkerframework.checker.units.qual.m
 
-@SuppressLint("CoroutineCreationDuringComposition")
+@SuppressLint("CoroutineCreationDuringComposition", "UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun MainScreen(navController: NavHostController, mainViewModel: MainViewModel) {
     var mAuth = FirebaseAuth.getInstance()
@@ -244,7 +244,9 @@ fun MainScreen(navController: NavHostController, mainViewModel: MainViewModel) {
                             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
 
                                 Button(
-                                    onClick = { },
+                                    onClick = {
+                                              navController.navigate(Screen.Statistics.route)
+                                    },
                                     modifier = Modifier
                                         .shadow(elevation = 8.dp, shape = RoundedCornerShape(20))
                                         .height(40.dp)
