@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.app.ActivityCompat
 import androidx.navigation.NavHostController
+import com.bits.hackathon.studyfocus.BottomNavigationBar
 import com.bits.hackathon.studyfocus.R
 import com.bits.hackathon.studyfocus.Screen
 import com.bits.hackathon.studyfocus.data.RewardsList
@@ -84,7 +85,10 @@ fun RewardsScreen(navController: NavHostController, rewardsViewModel: RewardsVie
         modifier = Modifier.fillMaxSize()
     ) {
         Scaffold(
-            backgroundColor = MaterialTheme.colors.secondary
+            backgroundColor = MaterialTheme.colors.secondary,
+            bottomBar = {
+                BottomNavigationBar(navController = navController)
+            }
         ) {
             Column(
                 modifier = Modifier

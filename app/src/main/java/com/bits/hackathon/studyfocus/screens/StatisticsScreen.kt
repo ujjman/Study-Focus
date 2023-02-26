@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.navigation.NavHostController
+import com.bits.hackathon.studyfocus.BottomNavigationBar
 import com.bits.hackathon.studyfocus.Screen
 import com.bits.hackathon.studyfocus.viewmodels.BarChartDataModel
 import com.bits.hackathon.studyfocus.viewmodels.StatisticsViewModel
@@ -51,7 +52,10 @@ fun StatisticsScreen(
         })
     }
     Scaffold(
-        backgroundColor = MaterialTheme.colors.secondary
+        backgroundColor = MaterialTheme.colors.secondary,
+        bottomBar = {
+            BottomNavigationBar(navController = navController)
+        }
     ) {
         when (checkDataLoaded.value) {
 
@@ -133,7 +137,7 @@ fun ChangeBars(
                 barChartDataModel.removeBar()
                 barChartDataModel.yAxisDrawer.value = simpleYAxisDrawerWithNoLeadingZero
                 barChartDataModel.addBar(statisticsViewModel.noOfSessionsPerDayMap)
-            }, shape = CircleShape
+            }
         ) {
             Text(text = "No of sessions per day")
         }
@@ -154,7 +158,7 @@ fun ChangeBars(
                 barChartDataModel.removeBar()
                 barChartDataModel.yAxisDrawer.value = simpleYAxisDrawerWithOneLeadingZero
                 barChartDataModel.addBar(statisticsViewModel.avgDurationOfSessionsPerDayMap)
-            }, shape = CircleShape
+            }
         ) {
             Text(text = "Avg duration of sessions per day")
         }

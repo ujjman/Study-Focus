@@ -111,7 +111,10 @@ fun TimerScreen(
         modifier = Modifier.fillMaxSize()
     ) {
         Scaffold(
-            backgroundColor = MaterialTheme.colors.secondary
+            backgroundColor = MaterialTheme.colors.secondary,
+            bottomBar = {
+                BottomNavigationBar(navController = navController)
+            }
         )
         {
             Column(
@@ -119,6 +122,8 @@ fun TimerScreen(
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                Spacer(modifier = Modifier.padding(top = 60.dp))
+                Text(text = "Set Your Timer", fontSize = 32.sp, fontWeight = FontWeight.Bold)
                 Spacer(modifier = Modifier.padding(top = 30.dp))
                 CircularProgressBar(
                     modifier = Modifier.size(250.dp),
@@ -156,7 +161,7 @@ fun TimerScreen(
                     contentPadding = PaddingValues(0.dp),
                     colors = ButtonDefaults.outlinedButtonColors(
                         contentColor = Color.White,
-                        backgroundColor = Color(62, 111, 168, 255)
+                        backgroundColor = Color(190, 190, 253, 255)
                     )
                 ) {
                     // Adding an Icon "Add" inside the Button
@@ -170,11 +175,11 @@ fun TimerScreen(
                     },
                     modifier = Modifier
                         .width(180.dp)
-                        .height(80.dp),
+                        .height(50.dp),
                     contentPadding = PaddingValues(0.dp),
                     colors = ButtonDefaults.outlinedButtonColors(
                         contentColor = Color.White,
-                        backgroundColor = Color(62, 111, 168, 255)
+                        backgroundColor = Color(190, 190, 253, 255)
                     )
                 ) {
                     // Adding an Icon "Add" inside the Button

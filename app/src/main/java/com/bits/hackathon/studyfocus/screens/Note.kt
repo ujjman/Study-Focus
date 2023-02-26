@@ -22,6 +22,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.bits.hackathon.studyfocus.BottomNavigationBar
 import com.bits.hackathon.studyfocus.ui.theme.LightGreen
 import com.bits.hackathon.studyfocus.viewmodels.NoteViewModel
 import org.checkerframework.checker.units.qual.min
@@ -57,7 +58,10 @@ fun Note(navController: NavHostController, noteViewModel: NoteViewModel)
         modifier = Modifier.fillMaxSize()
     ) {
         Scaffold(
-            backgroundColor = MaterialTheme.colors.secondary
+            backgroundColor = MaterialTheme.colors.secondary,
+            bottomBar = {
+                BottomNavigationBar(navController = navController)
+            }
         ) {
             Column(
                 modifier = Modifier.fillMaxSize(),
@@ -68,7 +72,7 @@ fun Note(navController: NavHostController, noteViewModel: NoteViewModel)
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .fillMaxHeight(0.8f)
+                        .fillMaxHeight(0.78f)
                         .padding(horizontal = 20.dp),
                     verticalArrangement = Arrangement.Top,
                     horizontalAlignment = Alignment.CenterHorizontally
@@ -125,7 +129,7 @@ fun Note(navController: NavHostController, noteViewModel: NoteViewModel)
 
                     }
                 }
-                Spacer(modifier = Modifier.padding(top = 20.dp))
+                Spacer(modifier = Modifier.padding(top = 10.dp))
                 Row() {
                     OutlinedButton(
                         onClick = {
@@ -136,7 +140,7 @@ fun Note(navController: NavHostController, noteViewModel: NoteViewModel)
                         contentPadding = PaddingValues(0.dp),
                         colors = ButtonDefaults.outlinedButtonColors(
                             contentColor = Color.White,
-                            backgroundColor = Color(62, 111, 168, 255)
+                            backgroundColor = Color(190, 190, 253, 255)
                         )
                     ) {
                         // Adding an Icon "Add" inside the Button

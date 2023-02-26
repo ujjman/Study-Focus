@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.navigation.NavHostController
+import com.bits.hackathon.studyfocus.BottomNavigationBar
 import com.bits.hackathon.studyfocus.data.SessionDetails
 import com.bits.hackathon.studyfocus.viewmodels.AllSessionsViewModel
 
@@ -48,7 +49,10 @@ fun AllSessionsScreen(
     }
 
     Scaffold(
-        backgroundColor = MaterialTheme.colors.secondary
+        backgroundColor = MaterialTheme.colors.secondary,
+        bottomBar = {
+            BottomNavigationBar(navController = navController)
+        }
     ) {
         Box(modifier = Modifier.fillMaxWidth()) {
             Column(
